@@ -2,7 +2,7 @@ import numpy as np
 
 def load_data(num_samples):
     # Path to the data txt file on disk.
-    data_path = 'data/seq2seq/fra.txt'
+    data_path = 'data/fra-eng/fra.txt'
 
     # Vectorize the data.
     input_texts = []
