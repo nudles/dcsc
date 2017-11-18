@@ -21,7 +21,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
-K.set_image_data_format('channels_first')
+K.set_image_data_format('channels_last')
 
 class MnistCNN(object):
     def __init__(self):
@@ -32,7 +32,7 @@ class MnistCNN(object):
         model = Sequential()
         model.add(Conv2D(32, kernel_size=(3, 3),
                          activation='relu',
-                         input_shape=(1, self.img_rows, self.img_cols)))
+                         input_shape=(self.img_rows, self.img_cols, 1)))
         model.add(Conv2D(64, (3, 3), activation='relu'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(0.25))
@@ -50,7 +50,7 @@ class MnistCNN(object):
         
         
     def predict(self, x, batchsize):
-        x = x.reshape(x.shape[0], 1, self.img_rows, self.img_cols)
+        x = x.reshape(x.shape[0], self.img_rows, self.img_cols, 1)
         x = x.astype('float32')
         x /= 255
         return self.model.predict(x, batchsize)
@@ -59,9 +59,9 @@ class MnistCNN(object):
         # the data, shuffled and split between train and test sets
         (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-        #if K.image_data_format() == 'channels_first':
-        x_train = x_train.reshape(x_train.shape[0], 1, self.img_rows, self.img_cols)
-        x_test = x_test.reshape(x_test.shape[0], 1, self.img_rows, self.img_cols)
+        #if K.image_data_format() == 'channels_last':
+        x_train = x_train.reshape(x_train.shape[0], self.img_rows, self.img_cols, 1)
+        x_test = x_test.reshape(x_test.shape[0], self.img_rows, self.img_cols, 1)
         input_shape = (1, self.img_rows, self.img_cols)
 
 
