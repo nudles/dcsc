@@ -41,10 +41,57 @@ from keras.layers.convolutional import *
 from keras.preprocessing import image, sequence
 from keras.preprocessing.text import Tokenizer
 
+from shutil import move
+
 np.set_printoptions(precision=4, linewidth=100)
 
 
 to_bw = np.array([0.299, 0.587, 0.114])
+
+def seperate_dog_cat(src, dst):
+    """
+    seperate images for dog and cat into two different subfolders under dst, i.e. dst/dog and dst/cat
+    """
+    imgs = [f for f in os.listdir(src) if os.path.isfile(os.path.join(src, f)) and not f.startswith('.')]
+    
+    dst_dog = os.path.join(dst, 'dog')
+    dst_cat = os.path.join(dst, 'cat')
+    if not os.path.exists(dst_dog):
+        os.makedirs(dst_dog)
+    if not os.path.exists(dst_cat):
+        os.makedirs(dst_cat)
+    
+    for img in imgs:
+        if 'dog' in img:
+            move(os.path.join(src, img), dst_dog)
+        if 'cat' in img:
+            move(os.path.join(src, img), dst_cat)
+    print('seperate done')
+
+
+def split_data(src, dst, ratio=0.2):
+    """
+    move images from src into dst
+    
+    src is a folder with multiple subfolders, e.g. src/cat, src/dog.
+    for each subfolder xxx, create a folder in dst/xxx
+    and move ratio images from src/xxx to dst/xxx
+    """
+    dirs = [f for f in os.listdir(src) if os.path.isdir(os.path.join(src, f)) and not f.startswith('.')]
+    for d in dirs:
+        src_subdir = os.path.join(src, d)
+        dst_subdir = os.path.join(dst, d)
+        if not os.path.exists(dst_subdir):
+            os.makedirs(dst_subdir)
+        imgs = [f for f in os.listdir(src_subdir) if os.path.isfile(os.path.join(src_subdir, f)) and not f.startswith('.')]
+        for img in imgs:
+            if np.random.uniform() <= ratio:
+                move(os.path.join(src_subdir, img), dst_subdir)
+    print('split done')
+    
+def reorganize_dog_cat(root):
+    seperate_dog_cat(os.path.join(root, "train"), os.path.join(root, "train"))
+    split_data(os.path.join(root, "train"), os.path.join(root, "valid"))
 
 def gray(img):
     if K.image_dim_ordering() == 'tf':

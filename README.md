@@ -1,16 +1,25 @@
 This repository includes python code and jupyter notebook for an introduction to Convolution Neural Network (CNN) and Recurrent Neural Network (RNN).
 
 
-## 
+## Instruction
 
-The notebooks have been tested using miniconda3 with python3.6
+The notebooks have been tested using miniconda3 with python3.6 and python3.5.
+Latest Keras (>=v2.0.9) is required to run the RNN code, which uses the `RNN` class.
 
 To run the notebooks, here are some instructions
 1. install the dependent libraries including, keras + tensorflow, jupyter notebook and others in requirements.txt
+```   
+    conda install tensorflow     
+    # or with gpu 
+    conda install tensorflow-gpu
+    
+    git clone https://github.com/fchollet/keras.git
+    cd keras
+    python setup.py install 
     
     conda install --file requirements.txt
-    
-2. create the checkpoint folder, `ckpt`.    
+```    
+2. create the checkpoint folder, `ckpt` and `data/` folder.    
 3. download the dataset into `data/` folder. Details are inside the notebooks.
 
 
