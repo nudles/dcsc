@@ -22,6 +22,10 @@ To run the notebooks, here are some instructions
 2. create the checkpoint folder, `ckpt` and `data/` folder.    
 3. download the dataset into `data/` folder. Details are inside the notebooks.
 
+Here are the [instructions](https://www.youtube.com/watch?v=8rjRfW4JM2I) to setup the GPU instance on Amazon AWS.
+NOTE: select the nearest AWS region with GPU, e.g. Singapore. You can use cheaper GPU instances like g2.2xlarge. 
+You can also use [Google Cloud](http://cs231n.github.io/gce-tutorial-gpus/), which has GPUs in Region Taiwan.
+
 
 ## Credit
 
